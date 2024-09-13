@@ -1,0 +1,29 @@
+// Example of how to add key event listeners to delete an object in Three.js
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Delete') { // Check if the 'Delete' key was pressed
+    // Assuming you have a reference to the selected object
+    if (selectedObject) {
+      // Remove the selected object from the scene
+      scene.remove(selectedObject);
+
+      // Dispose of the object's resources
+      if (selectedObject.geometry) {
+        selectedObject.geometry.dispose();
+      }
+      if (selectedObject.material) {
+        if (Array.isArray(selectedObject.material)) {
+          selectedObject.material.forEach(material => material.dispose());
+        } else {
+          selectedObject.material.dispose();
+        }
+      }
+      if (selectedObject.material && selectedObject.material.map) {
+        selectedObject.material.map.dispose();
+      }
+
+      // Optionally set the selected object to null
+      selectedObject = null;
+    }
+  }
+});
